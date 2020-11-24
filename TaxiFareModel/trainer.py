@@ -15,6 +15,11 @@ from TaxiFareModel.utils import extract_time_features
 from TaxiFareModel.data import get_data
 from TaxiFareModel.data import clean_data
 from TaxiFareModel.utils import compute_rmse
+from memoized_property import memoized_property
+
+MLFLOW_URI = "https://mlflow.lewagon.co/"
+myname = "LeoThr"
+EXPERIMENT_NAME = f"TaxifareModel_{myname}"
 
 class Trainer():
     def __init__(self, X, y):
