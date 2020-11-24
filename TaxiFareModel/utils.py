@@ -1,5 +1,13 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
 import numpy as np
-
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.linear_model import Ridge
+from sklearn.linear_model import LinearRegression
+from sklearn.base import BaseEstimator, TransformerMixin
 
 def haversine_vectorized(df,
                          start_lat="pickup_latitude",
@@ -28,3 +36,14 @@ def haversine_vectorized(df,
 
 def compute_rmse(y_pred, y_true):
     return np.sqrt(((y_pred - y_true) ** 2).mean())
+
+def extract_time_features(df):
+    timezone_name = 'America/New_York'
+    time_column = "pickup_datetime"
+    df.index = pd.to_datetime(df[time_column])
+    df.index = df.index.tz_convert(timezone_name)
+    df["dow"] = df.index.weekday
+    df["hour"] = df.index.hour
+    df["month"] = df.index.month
+    df["year"] = df.index.year
+    return df.reset_index(drop=True)
